@@ -1,0 +1,5 @@
+{
+  "name": "Copy of Copy of Copy of Anki Flashcard Generator",
+  "description": "A web application that uses AI to convert text from PDFs or notes into Anki-compatible flashcards in Tab-Separated Values (TSV) format.",
+  "requestFramePermissions": []
+}
