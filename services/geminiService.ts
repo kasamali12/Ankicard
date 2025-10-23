@@ -2,11 +2,14 @@
 import { GoogleGenAI } from "@google/genai";
 import { CardType, OutputFormat, ExtractionMethod } from "../App";
 
-if (!process.env.API_KEY) {
-  throw new Error("API_KEY environment variable not set");
+// Lazily read API key at call time to avoid crashing app render.
+function createAiClient(): GoogleGenAI {
+  const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("API_KEY_INVALID");
+  }
+  return new GoogleGenAI({ apiKey });
 }
-
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const getFormatInstructions = (outputFormat: OutputFormat, cardType: CardType): string => {
     const examples = {
@@ -191,6 +194,7 @@ export async function* generateFlashcardsStream(userInput: string, options: Gene
         ...(model === 'gemini-2.5-pro' ? { thinkingConfig: { thinkingBudget: 32768 } } : {}),
     }
 
+    const ai = createAiClient();
     const responseStream = await ai.models.generateContentStream({
       model,
       contents: userContent,

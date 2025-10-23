@@ -5,7 +5,6 @@ const CACHE_NAME = 'anki-flashcard-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/index.tsx',
 ];
 
 // Install the service worker and cache the app shell.
